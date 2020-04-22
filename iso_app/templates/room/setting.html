@@ -1,0 +1,100 @@
+
+<style>
+.form_set{
+   text-align: left;
+   font-size: 20px;
+}
+.form_set a, a:visited{
+  color: black;
+}
+.set_input{
+  border: 1px solid #999;
+  height: 20px; 
+  width: 448px;
+}
+.set_input2{
+  border: 1px solid #999;
+  height: 20px;
+  width: 485px;
+}
+.set_input3{
+  border: 1px solid #999;
+  height: 20px;
+  width: 505px;
+}
+</style>
+<script type="text/javascript">
+  function check_submit(){
+    var form = document.frm;
+    form.action = "../edit_teamroom/";
+    form.submit();
+  }
+  function check_member(){
+    var form = document.frm;
+    form.action = "../search/";
+    form.submit();
+  }
+</script>
+
+{% extends 'room/room_base.html' %}
+
+{% block content %} 
+<div class="main_container main_notice" style="background:white;">
+
+<div>
+  <table>
+    <tr> 
+        <td><img src="/static/img/icon/team_setting.png" class="main_icon"></td>
+        <td><h3>팀 정보</h3></td>
+    </tr>
+  </table>
+
+  <div class="main_title">
+    <form method="POST" name = "frm" style="padding-top: 15px";>
+      {% csrf_token %}
+      <p class="form_set">프로젝트 이름 : <input type="text" class="set_input" id = "project" name = "project" value="{{team.project}}"></p>
+      <p class="form_set">과목 이름 : <input type="text" class="set_input2" id = "subject" name = "subject" value="{{team.subject}}"></p>
+      <p class="form_set">팀 이름 : <input type="text" class="set_input3" id = "team" name = "team" value="{{team.team}}"></p>
+      <p class="form_set">팀장 설정 :
+        <select id="leader" name="leader" class="btn btn_duplicate_check">
+          {% for member in members %}
+            <option><p class="form_set">{{member.user.user_id}}</p></option>
+          {% endfor %} 
+        </select>
+      </p>
+      <p class="form_set">팀 참여도 :
+      <select id="team_par" name="team_par" class="btn btn_duplicate_check">
+        {% for member in members %}
+          <option><p class="form_set">{{member.user.user_id}}</option>
+        {% endfor %}
+      </select>
+      <input type="text" id = "par" name = "par" value="100">
+      </p>
+    </form>
+  </div>
+
+  <table>
+    <tr>
+        <td><img src="/static/img/icon/team_setting.png" class="main_icon"></td>
+        <td><h3>{{team.project}} 팀원 목록</h3></td>
+        <td style="padding-left: 10px";><button class="btn btn_duplicate_check" onclick="location.href='./search'">팀원 추가</button></td>
+    </tr>
+  </table>
+  
+  <div class="main_title">      
+    {% for member in members %}
+    <div style="padding-top: 10px";>
+    <p class="form_set">{{ forloop.counter }}. {# starting index 1 #}<a href="./{{member.pk}}/sub">이름 : {{ member.user.user_name }} / 아이디 : {{ member.user.user_id }}</a></p>
+    </div>
+    {% endfor %}   
+  </div>
+
+  <div style="text-align: center;">
+    <button class="btn btn_original" type="submit" onclick="check_submit();">저장</button>
+    <input class="btn btn_original" type="reset" value="취소">
+  </div>
+</div>
+
+</div>
+{% endblock %}
+

@@ -1,0 +1,30 @@
+{% extends 'room/room_base_2.html' %}
+
+{% block content %}
+<div class="main_container main_post">
+  <table class="post_edit">
+    <tr>
+      <td>
+        <img src="/static/img/icon/user.png" class="post_profile">
+        <p class="post_name">{{user_id}}</p>
+      </td>
+      <td>
+        <form method="POST" class="post_board">
+        {% csrf_token %}
+        <p><textarea id="text" name="text">{{ post.text }}</textarea></p>
+        <div class="pull-right">
+        <p>@
+          <select id="tag" name="tag" class="btn btn_duplicate_check">
+            {% for member in members %}
+            <option>{{ member.user.user_name }}</option>
+            {% endfor %}
+          </select>
+          &ensp;<button type="submit">수정</button>
+        </p>
+        </div>
+        </form>
+      </td>
+    </tr>
+  </table>
+</div>
+{% endblock %}

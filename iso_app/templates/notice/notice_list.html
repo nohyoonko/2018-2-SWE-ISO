@@ -1,0 +1,32 @@
+
+{% extends 'room/room_base.html' %}
+
+{% block content %}
+
+<div class="main_container main_notice">
+<table>
+	<tr>
+		<td><img src="/static/img/icon/notice.png" class="main_icon"></td>
+		<td><h3>공지사항</h3></td>
+	</tr>
+</table>
+<!---------- DB에서 받기, 목록만큼 <tr> 추가 -------->
+<table class="notice">
+	<tr>
+		<td>번호</td>
+		<td>제목</td> 
+		<td>글쓴이</td>
+		<td>날짜</td>
+	</tr>
+	{% for notice in notices %}
+	<tr>
+		<td>{{ forloop.counter }} {# starting index 1 #}</td>
+	  	<td><a href="./{{notice.pk}}">{{ notice.title }}</a></td>
+	 	<td>{{ notice.author.user.user_name|linebreaksbr }}</td>
+	 	<td>{{ notice.published_date|date:"Y.m.d H:i" }}</td>
+	</tr>
+    {% endfor %}
+</table>
+</div>
+<button class="btn new_notice" onclick="location.href='./new'">글쓰기</button>
+{% endblock %}

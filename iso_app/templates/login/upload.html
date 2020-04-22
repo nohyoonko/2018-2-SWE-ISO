@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FileUpload</title>
+	<meta charset="utf-8">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			function file_list(){
+				<input type="file" webkitdirectory>
+		}
+		</script>
+</head>
+<body>
+<div>
+<form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    <p>{{ form.as_p }}</p>
+    <button type="submit">Upload</button>
+</form>
+</div>
+<div class="container">
+    <tabl><!-- class="table table-striped">-->
+        <thead>
+        <tr>
+            <td><B>번호</B></td>
+            <td><B>이름</B></td>
+            <td><B>소개</B></td>
+            <td><B>동네</B></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for file in Files%}
+        <tr>
+            <td>{{candidate.party_number}}번</td>
+            <td>{{candidate.name}}</td>
+            <td>{{candidate.introduction}}</td>
+            <td>{{candidate.area}}</td>
+        </tr>
+        {% endfor %}
+        <tbody>
+    </table>
+</div>
+</body>
+</html>

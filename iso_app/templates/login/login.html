@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="팀프로젝트를 위한 웹사이트">
+<meta name="author" content="이등변삼각형">
+
+<title>TeamPlace_이등변삼각형</title>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{% static 'js/jquery.backstretch.min.js' %}"></script>
+
+<script type="text/javascript">
+	function login(){
+			var id = $("#id").val();
+			var psw = $("#pwd").val();
+
+			$.ajax({
+	          url: '../check_login/',
+	          data: {
+	          	  'id' : id,
+	          	  'psw' : psw,
+	          },
+	          dataType: 'json',
+	          success: function (data) {
+	          	//alert(data.result);
+	          	if(data.result == 'success'){
+	          		window.location.href = '../login_admin/';
+	          	}
+	          	else if(data.result == 'id_failed'){
+	          		alert("존재하지 않는 ID 입니다.");
+	          	}
+	          	else if(data.result == 'psw_failed'){
+	          		alert("PSW가 틀렸습니다.");
+	          	}
+	          }
+	        });
+		}
+</script>
+</head>
+<body>
+	<div id="login_page">
+		<h1 class="login_intro">안녕하세요, <font face="Blacker Papua" color="#FFD777">Teamplace</font> 입니다.</h1>
+		<h3>저희가 여러분의 팀 프로젝트 관리를 도와드리겠습니다.</h3>
+		<form class="login_form" action="" method="post" name="f1">
+			{% csrf_token %}
+			<div class="login_box1" id="login_id_section">
+				<p class="login_box_item">
+				ID&emsp;|<input type="text" class="login_input" name="id" id="id" maxlength="10" placeholder="아이디" />
+				</p>
+			</div>
+			<div class="login_box2"  id="login_pwd_section">
+				<p class="login_box_item">
+				PW&ensp;|<input type="password" class="login_input" name="pwd" id="pwd" maxlength="10" placeholder="패스워드" />
+				</p>
+			</div>
+			<div class="login_btn_box">
+					<button class="btn_login_page login_button" type="submit" onclick="login();">로그인</button>
+					<button class="btn_login_page join_button" type="button" onclick="location.href='../join'">회원가입</button>
+			</div>
+		</form>	
+	</div>
+	
+<script type="text/javascript">
+	$(document).ready(function() {
+ 		$.backstretch("{% static 'img/background.png' %}");
+ 	});
+</script>
+</body>
+</html>

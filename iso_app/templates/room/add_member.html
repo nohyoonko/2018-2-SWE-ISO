@@ -1,0 +1,36 @@
+
+<style>
+.form_set{
+   text-align: left;
+   font-size: 18px;
+}
+.form_set a, a:visited{
+  color: black;
+}
+</style>
+{% extends 'room/room_base_2.html' %}
+
+{% block content %}
+<div class="main_container main_notice form_set" style="background:white;">
+  <table>
+    <tr>
+        <td><img src="/static/img/icon/team_setting.png" class="main_icon"></td>
+        <td><h3>팀원 추가</h3></td>
+    </tr>
+  </table>
+
+   <form action="" method="get">
+      <p>찾고싶은 회원의 id를 입력하시오.</p>
+      <p><input type="text" name="q" value="{{ q }}"> <input type="submit" value="검색" class="btn btn_duplicate_check"></p>
+   </form>
+   <br>
+  <div class="main_title" style="width: 50%;">
+    <h3><font face="Blacker Papua">Teamplace</font> 사용자 목록</h3>
+    <ul style="list-style-type: square;">
+    {% for user in users %}
+        <li style="text-align: left; padding-left: 10px;"><a href="../{{user.pk}}/add">{{ user.user_id }}</a></li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

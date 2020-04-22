@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="description" content="팀프로젝트를 위한 웹사이트">
+<meta name="author" content="이등변삼각형">
+
+<title>TeamPlace_이등변삼각형</title>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{% static 'js/jquery.backstretch.min.js' %}"></script>
+
+<body>
+<div class="join_success">
+<h1 class="login_intro give_margin"><font face="Blacker Papua" color="#FFD777">Teamplace</font> 의 회원이 되어 주셔서 감사합니다.</h1>
+<div class="login_btn_box">
+<h3 style="text-decoration: underline;"><a href="../../login/" class="white_color">로그인 페이지로 돌아가기</a></h3>
+</div>
+</div>
+<script type="text/javascript">
+   $(document).ready(function() {
+       $.backstretch("{% static 'img/background.png' %}");
+    });
+</script>
+</body>
+</html>

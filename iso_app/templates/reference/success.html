@@ -1,0 +1,34 @@
+{% extends 'room/room_base.html' %}
+
+{% block content %} 
+<div class="main_container main_notice">
+<table>
+    <tr>
+        <td><img src="/static/img/icon/favorite_off.png" class="main_icon"></td>
+        <td><h3>자료실</h3></td>
+    </tr>
+</table>  
+<hr style="border: 3px solid white; margin: 0px 10px 10px 10px;">
+{% for candidate in candidates %}
+<div class="item">  
+    <p style="text-align: left; font-weight: bold;">{{ forloop.counter }}<button class="btn btn-delete pull_right" onclick="location.href='delete/{{candidate.file}}'">X</button></p>
+    <script type="text/javascript">
+    var filename = "{{candidate.file|safe}}";
+    var file=[/pdf/, /doc/, /jpg/, /png/,/xls/,/ppt/,/zip/,/txt/, /exe/];
+    var filetype=['pdf.png', 'doc.png', 'jpg.png', 'png.png','xls.png','ppt.png','zip.png','txt.png', 'file.png'];
+    for (var i=0 in file)
+    {
+        if (filename.match(file[i])){
+            document.write("<p><img src='/static/img/filetype/"+filetype[i]+"'></p>");
+        }
+    }
+    </script>
+    <p><a href="../../media/{{candidate.file}}" download={{candidate.file}} style="color: black;">{{candidate.file}}</a></p>
+</div>
+{% endfor %}
+
+</div>
+<div class="login_btn_box">
+<button class="btn btn_duplicate_check" onclick="location.href='upload'">업로드</button>
+</div>
+{% endblock %}

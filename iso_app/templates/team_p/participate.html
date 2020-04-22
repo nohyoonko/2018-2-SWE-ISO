@@ -1,0 +1,77 @@
+{% extends 'room/room_base.html' %}
+{% block content %}
+<style>
+    .graph { 
+        position: relative; /* IE is dumb */
+        width: 90%; 
+        border: 1px solid gray; 
+        border-radius: 6px;
+        font-size:15px;
+        font-family: "빙그레체2";
+        margin-bottom:3px;
+    }
+    .bar { 
+        display: block;
+        position: relative;
+        text-align: center; 
+        height: 2em;
+        background: #47A33B;
+        color: white;
+        line-height: 2em; 
+        border-radius: 6px;         
+    }
+    .graph .bar span { position: absolute; left: 1em; }
+    .par_title{
+    	margin-top: 5px;
+    	padding: 10px;
+        border: 5px solid #f2f2f2;
+      }
+</style>
+<div class="main_container main_notice" style="background:white;">
+   <table>
+       <tr>
+           <td><img src="/static/img/icon/participation.png" class="main_icon"></td>
+           <td><h3><font color="black">팀 참여도 평가</h3></td>
+       </tr>
+   </table>
+   <div class="par_title">
+         {% for member in members %}
+         <p style="font-size: large;">
+             <b>팀원 {{ forloop.counter }}{# starting index 1 #}</b>&emsp;{{ member.user.user_name }}
+             <div class="graph">
+             <strong class="bar" style="width: {{ member.participate }}%">{{ member.participate }}</strong>
+             </div>
+         </p> 
+         {% endfor %}
+   </div>
+   <table>
+       <tr> 
+        <td><img src="/static/img/icon/evaluation.png" class="main_icon"></td>
+        <td><h3><font color="black">평가 항목</h3></td>
+        <td style="padding-left: 10px";>
+       </tr>
+   </table>
+   <!-- 평가 항목을 위한 model 새로 만들어서 작업 -->
+    <form method="POST" class="post_board">
+    {% csrf_token %}
+    <p><textarea id="text" name="text" placeholder="항목을 입력하세요." value="{{ member.user.user_name }}"></textarea></p>
+    <div class="pull-right">
+      <button type="submit" class="btn btn_duplicate_check">항목 추가</button>
+    </div>
+    </form>
+    <h3><font color="black"></h3>
+    <div class="main_title" style="width: 50%; margin: 0; text-align: left;">
+      <td><h3><font color="black">{{team.project}}의 평가 항목 목록</h3></td>
+    <ul style="list-style-type: square;">
+    {% for par in pars %}
+    <li style="text-align: left; padding-left: 10px;">{{ par.text }}</a>
+      <input type="text" value="{{ par.text }}" name="text" id="text" hidden="hidden">
+      <!--<button class="btn btn_duplicate_check small" type="button" onclick="location.href='./delete'">삭제</button>-->
+    </li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
+
+
+{% endblock %}

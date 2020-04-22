@@ -1,0 +1,89 @@
+
+{% extends 'room/room_base.html' %}
+
+{% block content %}
+<script type="text/javascript">
+var calendar = null;
+var events = null;
+ 
+var date = new Date();
+var d = date.getDate();
+var m = date.getMonth()+1;
+var y = date.getFullYear();
+var cals = "{{cals|safe}}"; 
+
+$(document).ready(function() {
+	calendar = $('#calendar').fullCalendar({
+		header: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'month,agendaWeek,agendaDay'
+		},
+		selectable: true,
+		selectHelper: true,
+		dayClick: function(date, allDay, jsEvent, view) {
+			window.alert("일정을 추가할 날짜를 선택했습니다.");
+			calendar.fullCalendar('unselect');
+		},
+		// eventClick: function(calEvent, jsEvent, view) {
+		// 	window.alert(title+" 일정이 있습니다.");
+		// },
+		select: function(start, end, allDay) {
+			
+			var title = prompt('일정을 추가하세요.');
+			if (title) {
+				var start_val=String(start);
+				var end_val=String(end);
+				$.ajax({
+						url : './add_cal/',
+						data : {
+							'title': title,
+							'start': start_val,
+							'end':end_val,
+						},
+						dataType: 'json',
+					
+						success: function (response_result){
+					
+							if(response_result.result == 'success'){
+								alert("일정이 추가되었습니다.");
+								}
+							else{
+								alert("일정 추가 실패"); 
+							}
+					}
+				});
+				calendar.fullCalendar('renderEvent',
+					{
+						title: title,
+						start: start,
+						end: end,
+					},
+					true // make the event "stick"
+				);
+			}
+			calendar.fullCalendar('unselect');
+		},
+		
+		eventDrop: function( event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ) {
+			//window.alert("eventDrop");
+		},
+		eventResize:function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) { 
+			//window.alert("eventResize");
+		},
+ 		editable: true,
+ 		events: events,
+ 		eventColor: '#68dff0',
+		firstDay: 0,
+		weekends: true,
+		allDaySlot: true,
+		slotMinutes: 30,
+		defaultEventMinutes: 60,
+		firstHour: 9,
+	});
+});
+</script>
+<div class="main_container bg_none">
+	<div id="calendar"></div>
+</div>
+{% endblock %}

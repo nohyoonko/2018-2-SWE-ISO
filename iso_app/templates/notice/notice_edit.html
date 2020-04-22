@@ -1,0 +1,27 @@
+{% extends 'room/room_base_2.html' %}
+
+{% block content %}
+
+<div class="main_container main_notice">
+<table>
+	<tr>
+		<td><img src="/static/img/icon/notice.png" class="main_icon"></td>
+		<td><h3>공지사항 작성</h3></td>
+	</tr>
+</table>
+<form method="POST">
+	{% csrf_token %}
+	<!-- {{ form.as_p }} -->
+	<div class="notice_board">
+		<h3>제목</h3>
+		{{ form.title }}<br>
+		<h3>내용</h3>
+		{{ form.text }}<br>
+	</div>
+	<div class="button_center">
+		<button class="btn btn_original" type="submit">저장</button>
+		<button class="btn btn_original" type="button" onclick="history.back(-1);">취소</button>
+	</div>
+</form>
+</div>
+{% endblock %}

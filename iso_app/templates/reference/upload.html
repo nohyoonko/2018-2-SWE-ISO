@@ -1,0 +1,21 @@
+{% extends 'room/room_base.html' %}
+
+{% block content %} 
+<div class="main_container main_notice">
+   <table>
+      <tr>
+         <td><img src="../../static/img/icon/favorite_off.png" class="main_icon"></td>
+         <td><h3>자료실 업로드</h3></td>
+      </tr>
+   </table> 
+   <hr style="border: 3px solid white; margin: 0px 10px 10px 10px;">
+   <h1></h1>
+    <form method="post" enctype="multipart/form-data" class="filebox" novalidate>
+       {% csrf_token %}
+       <p>{{ form.as_p }}</p>
+       <div class="login_btn_box">
+       <button type="submit" class="btn btn_original" onclick="location.href='../'">업로드</button>
+      </div>
+   </form>
+</div>
+{% endblock %}

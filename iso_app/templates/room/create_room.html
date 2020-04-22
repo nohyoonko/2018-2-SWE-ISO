@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="팀프로젝트를 위한 웹사이트">
+<meta name="author" content="이등변삼각형">
+
+<title>TeamPlace_이등변삼각형</title>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{% static 'js/jquery.backstretch.min.js' %}"></script>
+
+<script type="text/javascript">
+
+		function check_submit(){
+				var form = document.frm;
+				form.submit();
+		}
+</script>
+</head>
+<body>
+	<div id="mypage">
+		<div id="myprofile"></div>
+		<div id="myinfo">
+		<form class="join_form edit_form" method="post" name = "frm" action='./register_class_db'>
+			{% csrf_token %}
+			<h3 class="myinfo_name">{{userinfo.user_name}}</h3>
+			<div class="join_content">
+				<p class="form_control">프로젝트명 : <input type="text" class="join_input" name="project" id="project"></p>
+				<p class="form_control">과목명 : <input type="text" class="join_input" name="subject" id="subject"></p>
+				<p class="form_control">팀명 : <input type="text" class="join_input" name="team" id="team"></p>
+				<div class="join_form_button">
+				<button class="btn btn_original"  type="button" onclick="check_submit();">확인</button>
+				<button class="btn btn_original" type="button" onclick="history.back(-1);">취소</button>
+				</div>
+			</div>
+		</form>
+		</div>
+	</div>
+	
+<script type="text/javascript">
+	$(document).ready(function() {
+ 		$.backstretch("{% static 'img/background.png' %}");
+ 	});
+</script>
+</body>
+</html>

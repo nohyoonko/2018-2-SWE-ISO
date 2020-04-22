@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="팀프로젝트를 위한 웹사이트">
+<meta name="author" content="이등변삼각형">
+<title>TeamPlace_이등변삼각형</title>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+var date = new Date();
+var dd = date.getDate();
+var d=String(dd);
+if (dd<10){
+  d='0'+String(dd);
+}
+var mm = date.getMonth()+1;
+var m_string=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var m;
+
+for (var i=0;i<m_string.length;i++){
+  if (mm=i){
+    m=m_string[i];
+  }
+}
+
+var y = date.getFullYear();
+var a;
+$.ajax({
+            url : './today/', 
+            data : {
+              'd': d,
+              'm': m,
+              'y':y,
+            },
+            dataType: 'json',
+          
+            success: function (response_result){
+          
+              if(response_result.result == 'success'){
+                  a=response_result.title;
+
+                  function createToday(con){
+                    var ol = document.createElement("ol");
+                    con.forEach(function(item){
+                      var li = document.createElement("li");
+                      li.innerHTML = item
+                      ol.appendChild(li);
+                    });
+                    return ol;
+                  }
+                  document.getElementById("today").appendChild(createToday(a));
+              }
+          }
+        });
+
+</script>
+</head>
+<body>
+   {% csrf_token %}
+   <!-- Top Bar & Notification -->
+   <section id="container">
+      <!-- header start -->
+         <header class="header black-bg">
+            <!--logo start-->
+            <a href="" class="pull_left logo">Teamplace</a>
+            <!--logo end-->
+            
+            <div id="top_menu">
+               <ul class="nav pull_right top_menu">
+                  <li><a class="header_btn" href="../mypage">마이페이지</a></li>
+                  <li><a class="header_btn" href="../logout">로그아웃</a></li>
+               </ul>
+            </div>
+      </header>
+      <!-- header end -->
+      
+      <!--sidebar-menu start-->
+      <aside>
+      <div id="sidebar">
+         <div id="main_profile_container">
+            <div id="main_profile_img"><img src="/static/img/lulu.jpg"></div>
+            <p><b>{{user_id}}</b>
+              {% if member.is_leader == True%}
+              (팀장)
+              {% else %}
+               (팀원)
+              {% endif%}</p>
+            <!--<p class="position">{{userinfo}}</p>-->
+         </div>
+         <ul class="sidebar_menu">
+              <li><a href="./notice">&emsp;공지사항</a></li>
+              <li><a href="./post">&emsp;게시판</a></li>
+              <li><a href="./reference">&emsp;자료실</a></li>
+              <li><a href="./calendar">&emsp;일정 관리</a></li>
+              <li><a href="./participate">&emsp;팀 참여도</a></li>
+              <li><a href="./setting">&emsp;설정</a></li>
+            </ul>
+      </div>
+      </aside>
+      <!-- sidebar-menu end -->
+      
+      <section id="main-content">
+         <section class="wrapper">
+         <div class="wrapper-back">
+            <div class="white-space"></div>
+            <div class="main_title">
+               <h1>{{team.project}}</h1>
+               <p>과목명: {{team.subject}}&emsp;|&emsp;팀명: {{team.team}}</p>
+            </div>
+            
+            <div class="main_container">
+               <table>
+               <tr>
+                  <td><img src="/static/img/icon/schedule.png" class="main_icon"></td>
+                  <td><h3>오늘의 일정</h3></td>
+               </tr>
+               </table>
+              <div id="today">
+              </div>
+            </div>
+
+            <div class="main_container main_favorite">
+              <table>
+                <tr>
+                    <td><img src="/static/img/icon/favorite_off.png" class="main_icon"></td>
+                    <td><h3>자료실</h3></td>
+                </tr>
+              </table>
+              <hr style="border: 3px solid white; margin: 0px 10px 10px 10px;">
+              {% for candidate in candidates %}
+              <div class="item">  
+                <p style="text-align: left; font-weight: bold;">{{ forloop.counter }}</p>
+                <script type="text/javascript">
+                var filename = "{{candidate.file|safe}}";
+                var file=[/pdf/, /doc/, /jpg/, /png/,/xls/,/ppt/,/zip/,/txt/, /exe/];
+                var filetype=['pdf.png', 'doc.png', 'jpg.png', 'png.png','xls.png','ppt.png','zip.png','txt.png', 'file.png'];
+                for (var i=0 in file)
+                {
+                    if (filename.match(file[i])){
+                        document.write("<p><img src='/static/img/filetype/"+filetype[i]+"'></p>");
+                    }
+                }
+                </script>
+                <p>{{candidate.file}}</p>
+             </div>
+            {% endfor %}
+            </div>
+            
+            <!--<div class="main_container main_favorite">
+               <table>
+               <tr>
+                  <td><img src="/static/img/icon/favorite.png" class="main_icon"></td>
+                  <td><h3>즐겨찾기 | <font size="3" color="#5f5f5f">고노윤_1주차 > 소프트웨어공학</font></h3></td>
+               </tr>
+               </table>
+            </div>-->
+         </div>
+         </section>
+         <div class="rightside">
+            <p>Notifications</p>
+            {% for n in notification reversed%} 
+               <div class="desc">
+                  <div class="thumb">
+                    <img src="/static/img/icon/user.png" style="width: 30px;">
+                  </div>
+                  <div class="details">
+                    <a href="#">{{ n.sender }}</a> 
+                    {{ n.text }}<br/>
+                  </div>
+               </div>
+            {% endfor %}
+         </div>
+      </section>
+   </section>
+   
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="팀프로젝트를 위한 웹사이트">
+<meta name="author" content="이등변삼각형">
+<title>TeamPlace_이등변삼각형</title>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'js/fullcalendar/fullcalendar.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/moment.min.js' %}"></script>
+<script src="{% static 'js/fullcalendar/fullcalendar.min.js' %}"></script>
+
+</head>
+<body>
+   {% csrf_token %}
+   <!-- Top Bar & Notification -->
+   <section id="container">
+      <!-- header start -->
+         <header class="header black-bg">
+            <!--logo start-->
+            <a href="../../main_teamroom" class="pull_left logo">Teamplace</a>
+            <!--logo end-->
+            
+            <div id="top_menu">
+               <ul class="nav pull_right top_menu">
+                  <li><a class="header_btn" href="../../../mypage">마이페이지</a></li>
+                  <li><a class="header_btn" href="../../../logout">로그아웃</a></li>
+               </ul>
+            </div>
+      </header>
+
+      <aside>
+      <div id="sidebar">
+         <div id="main_profile_container">
+            <div id="main_profile_img"><img src="/static/img/lulu.jpg"></div>
+            <p><b>{{user_id}}</b>
+              {% if member.is_leader == True%}
+              (팀장)
+              {% else %}
+               (팀원)
+              {% endif%}</p>
+            <!--<p class="position">{{userinfo}}</p>-->
+         </div>
+         <ul class="sidebar_menu">
+              <li><a href="../../notice">&emsp;공지사항</a></li>
+              <li><a href="../../post">&emsp;게시판</a></li>
+              <li><a href="../../reference">&emsp;자료실</a></li>
+              <li><a href="../../calendar">&emsp;일정 관리</a></li>
+              <li><a href="../../participate">&emsp;팀 참여도</a></li>
+              <li><a href="../../setting">&emsp;설정</a></li>
+            </ul>
+      </div>
+      </aside>
+      <!-- sidebar-menu end -->
+      
+      <section id="main-content">
+         <section class="wrapper">
+         <div class="wrapper-back">
+            <div class="white-space"></div>
+            <div class="main_title">
+               <h1>{{team.project}}</h1>
+               <p>과목명: {{team.subject}}&emsp;|&emsp;팀명: {{team.team}}</p>
+            </div>
+
+            {% block content %}
+                {% endblock %}
+
+         </div>
+         </section>
+         <div class="rightside">
+            <p>Notifications</p>
+            {% for n in notification reversed%}
+               <div class="desc">
+                  <div class="thumb">
+                    <img src="/static/img/icon/user.png" style="width: 30px;">
+                  </div>
+                  <div class="details">
+                    <a href="#">
+                    {{ n.sender }}</a> 
+                    {{ n.text }}<br/>
+                  </div>
+               </div>
+            {% endfor %}
+         </div>
+      </section>
+   </section>
+   
+</body>
+</html>

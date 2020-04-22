@@ -1,0 +1,46 @@
+{% extends 'room/room_base.html' %}
+
+{% block content %}
+<div class="main_container main_post">
+  <table class="post_edit">
+    <tr>
+      <td>
+        <img src="/static/img/icon/user.png" class="post_profile">
+        <p class="post_name">{{user_id}}</p>
+      </td>
+      <td>
+        <form method="POST" class="post_board">
+        {% csrf_token %}
+        <p><textarea id="text" name="text" placeholder="글을 입력하세요." value="{{ member.user.user_name }}"></textarea></p>
+        <div class="pull-right">
+        <p>@
+          <select id="tag" name="tag" class="btn btn_duplicate_check">
+            {% for member in members %}
+            <option>{{ member.user.user_name }}</option>
+            {% endfor %}
+          </select>
+          &ensp;<button type="submit">등록</button>
+        </p>
+        </div>
+        </form>
+      </td>
+    </tr>
+  </table>
+
+  <table class="post_list">
+    {% for post in posts %}
+    <tr>
+      <td><img src="/static/img/icon/user.png" class="post_profile list"></td>
+      <td>{{ post.author.user.user_name }}</td>
+      <td><font color="#68dff0"><b>@{{ post.tag }}</b></font><br>{{ post.text|linebreaksbr }}</td>
+      <td>
+        {{ post.published_date|date:"Y.m.d H:i" }}<br>
+        <button class="btn btn_duplicate_check small" type="button" onclick="location.href='{{post.pk}}/edit'">수정</button>
+        <button class="btn btn_duplicate_check small" type="button" onclick="location.href='{{post.pk}}/delete'">삭제</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+ 
+</div> 
+{% endblock %}

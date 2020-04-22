@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="팀프로젝트를 위한 웹사이트">
+<meta name="author" content="이등변삼각형">
+
+<title>TeamPlace_이등변삼각형</title>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{% static 'js/jquery.backstretch.min.js' %}"></script>
+</head> 
+<body>
+	<div id="mypage">
+		<div id="myprofile"></div>
+		<table class="mypage_hello">
+			<tr>
+				<!-- '고노윤' 부분 DB에서 받아오기 -->
+				<td><h1>안녕하세요, <font color="#FFD777">{{user_name}}</font> 님</h1></td>
+				<td><button type="button" class="btn btn_edit_mypage" onclick="location.href='/edit_mypage'" >내 정보 수정</button></td>
+				<td><button type="button" class="btn btn_edit_mypage" onclick="location.href='/logout'" >logout</button></td>
+			</tr>
+		</table>
+		<table class="team_list">
+			{% for m in member %}
+				<tr>
+					<td><a href="../{{m.team.class_id}}/main_teamroom">{{ m.team.subject }} - {{m.team.team }}</td>
+				</tr>
+			{% endfor %} 
+			<tr>
+				<td><a href="/create_room">+ 새 팀플 룸 추가</a></td>
+			</tr>
+		</table>
+	</div>
+	
+<script type="text/javascript">
+	$(document).ready(function() {
+ 		$.backstretch("{% static 'img/background.png' %}");
+ 	});
+</script>
+	
+</body>
+</html>

@@ -1,0 +1,8 @@
+{% extends 'room/room_base.html' %}
+
+{% block content %}
+<div class="main_container main_notice">
+
+<a id="id_uploaded_file" href="{ uploadFileModel.file.url }" download>{ uploadFileModel.file.name }</a>
+</div>
+{% endblock %}

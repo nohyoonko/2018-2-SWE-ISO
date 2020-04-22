@@ -1,0 +1,22 @@
+{% extends 'room/room_base.html' %}
+
+{% block content %}
+
+<div class="main_container main_notice">
+<table>
+    <tr>
+        <td><img src="/static/img/icon/notice.png" class="main_icon"></td>
+        <td><h3><a href="./">공지사항</a></h3></td>
+    </tr>
+</table>
+    <div  class="notice_board">
+        <h3>{{ notice.title }}</h3>
+        <p class="notice_info"><b>글쓴이</b>: {{ notice.author.user.user_name }} | <b>날짜</b>: {% if notice.published_date %} {{ notice.published_date|date:"Y.m.d H:i" }} {% endif %}</p>
+        <p class="notice_content">{{ notice.text|linebreaksbr }}</p>
+    </div>
+    <div class="button_center">
+        <button class="btn btn_original" type="button" onclick="location.href='{{notice.pk}}/edit'">수정</button>
+        <button class="btn btn_original" type="button" onclick="location.href='{{notice.pk}}/delete'">삭제</button>
+    </div>
+</div>
+{% endblock %} 

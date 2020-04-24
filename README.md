@@ -38,16 +38,8 @@ OS : window 10
 
 Language  : Python, HTML, CSS
 
-Framework & Library : Django framework, Semantic UI
+Framework & Library : Django framework, Bootstrap
 
 DB : sqlite
 ```
 
-## 맡은 역할
-
-1. Django 프레임워크를 이용하여 백 엔드 개발
-> 로그인, 회원가입, 마이 페이지(정보 수정), 팀 참여도, 게시판 태그, 공지사항 생성
-
-2. 사이트의 데이터베이스 설계
-
-3. AWS를 이용하여 서버 구축 및 웹 사이트 등록
